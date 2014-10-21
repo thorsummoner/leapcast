@@ -5,6 +5,7 @@ from collections import deque
 import json
 import logging
 from leapcast.environment import Environment
+from volume import get_volume_controller
 import tornado.web
 import threading
 from __builtin__ import id
@@ -314,7 +315,7 @@ class ApplicationChannel(WSC):
             channel.on_close()
 
 
-class CastPlatform(tornado.websocket.WebSocketHandler):
+class CastPlatform(WSC):
 
     '''
     Remote control over WebSocket.
@@ -330,5 +331,64 @@ class CastPlatform(tornado.websocket.WebSocketHandler):
 
     '''
 
+    def check_origin(self, origin):
+        # Accept all connections for now...
+        return True
+
+    def __init__(self, *args, **kwargs):
+        super(CastPlatform, self).__init__(*args, **kwargs)
+        self._vctrl = get_volume_controller()
+
+    def _write_error(self, request):
+        response = dict(
+            success=False,
+            cmd_id=request["cmd_id"],
+            type=request["type"]
+        )
+        self.write_message(json.dumps(response))
+
     def on_message(self, message):
-        pass
+        # TODO This seems to work OK for now, but someone should verify the protocol with an actual device.
+
+        request = json.loads(message)
+
+        def implies(a, b):
+            return (not a) or b
+
+        assert "cmd_id" in request, "Request is missing cmd_id"
+        assert "type" in request, "Request is missing type"
+        assert implies(request["type"] == "SET_VOLUME", "level" in request), "Request is missing level"
+        assert implies(request["type"] == "SET_MUTE", "muted" in request), "Request is missing muted"
+
+        if self._vctrl is None:
+            self._write_error(request)
+            return
+
+        if request["type"] == "SET_VOLUME":
+            logging.debug("Setting volume to %f" % request["level"])
+            self._vctrl.set_volume(request["level"])
+
+        elif request["type"] == "SET_MUTED":
+            logging.debug("Muting volume %s" % request["muted"])
+            self._vctrl.set_muted(request["muted"])
+
+        elif request["type"] == "GET_VOLUME":
+            logging.debug("Getting volume")
+
+        elif request["type"] == "GET_MUTED":
+            logging.debug("Getting mute")
+
+        else:
+            logging.error("Unknown request type: %s" % request["type"])
+            self._write_error(request)
+
+        v = self._vctrl.get_volume()
+        m = self._vctrl.is_muted()
+        response = dict(
+            success=True,
+            cmd_id=request["cmd_id"],
+            type=request["type"],
+            level=v,
+            muted=m
+        )
+        self.write_message(json.dumps(response))
