@@ -155,6 +155,9 @@ class ServiceChannel(tornado.websocket.WebSocketHandler):
         while len(self.buf) > 0:
             self.reply(self.buf.pop())
 
+    def check_origin(self, origin):
+        return True
+
     def on_message(self, message):
         cmd = json.loads(message)
         if cmd["type"] == "REGISTER":
@@ -212,6 +215,9 @@ class WSC(tornado.websocket.WebSocketHandler):
 
         logging.info("%s opened %s" %
                      (self.cname, self.request.uri))
+
+    def check_origin(self, origin):
+        return True
 
     def on_message(self, message):
         if Environment.verbosity is logging.DEBUG:
@@ -328,6 +334,9 @@ class CastPlatform(tornado.websocket.WebSocketHandler):
     Device control:
 
     '''
+
+    def check_origin(self, origin):
+        return True
 
     def on_message(self, message):
         if Environment.verbosity is logging.DEBUG:
