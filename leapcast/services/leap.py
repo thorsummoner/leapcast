@@ -16,6 +16,7 @@ from leapcast.environment import Environment
 
 logger = logging.getLogger('Environment')
 
+
 class LEAPserver(object):
     def start(self):
         logger.info('Starting LEAP server')
@@ -60,8 +61,7 @@ class LEAPserver(object):
         for app in data['applications']:
             name = app['app_id'].encode('utf-8')
             if 'url' not in app:
-                logger.warning('Didn\'t add %s because it has no URL!' %
-                                name)
+                logger.warning('Didn\'t add %s because it has no URL!' % name)
                 continue
             logger.info('Added %s app' % name)
             url = app['url']
