@@ -7,8 +7,6 @@ import logging
 
 from .chrome import get_chrome_path
 
-logger = logging.getLogger("Environment")
-
 
 class Environment(object):
     """

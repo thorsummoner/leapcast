@@ -7,7 +7,7 @@ import logging
 from .environment import Environment
 from .utils import generate_uuid
 
-logger = logging.getLogger("Environment")
+logger = logging.getLogger("Leapcast")
 
 
 def parse_cmd():
@@ -39,7 +39,7 @@ def parse_cmd():
 
     if args.debug:
         Environment.verbosity = logging.DEBUG
-    logging.basicConfig(level=Environment.verbosity)
+    logger.setLevel(Environment.verbosity)
 
     if args.interfaces:
         Environment.interfaces = args.interfaces

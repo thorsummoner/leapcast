@@ -11,6 +11,8 @@ import tornado.web
 
 from leapcast.environment import Environment
 
+logger = logging.getLogger("Leapcast")
+
 
 class App(object):
     """
@@ -38,12 +40,12 @@ class App(object):
             return instance
 
     def set_control_channel(self, ch):
-        logging.info("Channel for app set to %s", ch)
+        logger.info("Channel for app set to %s", ch)
         self.control_channel.append(ch)
 
     def get_control_channel(self):
         try:
-            logging.info("Channel for app is %s", self.control_channel[-1])
+            logger.info("Channel for app is %s", self.control_channel[-1])
             return self.control_channel[-1]
         except Exception:
             return False
@@ -171,7 +173,7 @@ class ServiceChannel(tornado.websocket.WebSocketHandler):
             self.write_message((json.dumps(msg)))
 
     def new_channel(self):
-        logging.info("NEWCHANNEL for app %s" % (self.app.info["name"]))
+        logger.info("NEWCHANNEL for app %s" % (self.app.info["name"]))
         ws = "ws://localhost:8008/receiver/%s" % self.app.info["name"]
         self.reply(
             {
@@ -183,7 +185,7 @@ class ServiceChannel(tornado.websocket.WebSocketHandler):
         )
 
     def new_request(self, data=None):
-        logging.info("CHANNELREQUEST for app %s" % (self.app.info["name"]))
+        logger.info("CHANNELREQUEST for app %s" % (self.app.info["name"]))
         if data:
             try:
                 data = json.loads(data)
@@ -210,21 +212,21 @@ class WSC(tornado.websocket.WebSocketHandler):
         self.app = App.get_instance(app)
         self.cname = self.__class__.__name__
 
-        logging.info("%s opened %s" %
+        logger.info("%s opened %s" %
                      (self.cname, self.request.uri))
 
     def on_message(self, message):
-        if Environment.verbosity is logging.DEBUG:
+        if Environment.verbosity is logger.DEBUG:
             if not ("ping" in message or "pong" in message):
                 pretty = json.loads(message)
                 message = json.dumps(
                     pretty, sort_keys=True, indent=2)
-                logging.debug("%s: %s" % (self.cname, message))
+                logger.debug("%s: %s" % (self.cname, message))
 
     def on_close(self):
         if self.app.name in Environment.channels:
             del Environment.channels[self.app.name]
-        logging.info("%s closed %s" %
+        logger.info("%s closed %s" %
                      (self.cname, self.request.uri))
 
 
@@ -330,8 +332,8 @@ class CastPlatform(tornado.websocket.WebSocketHandler):
     """
 
     def on_message(self, message):
-        if Environment.verbosity is logging.DEBUG:
+        if Environment.verbosity is logger.DEBUG:
             pretty = json.loads(message)
             message = json.dumps(
                 pretty, sort_keys=True, indent=2)
-            logging.debug("CastPlatform: %s" % message)
+            logger.debug("CastPlatform: %s" % message)

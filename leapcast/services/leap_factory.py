@@ -14,6 +14,8 @@ from leapcast.services.websocket import App
 from leapcast.utils import render
 from leapcast.environment import Environment
 
+logger = logging.getLogger("Leapcast")
+
 
 class Browser(object):
     def __init__(self, appurl):
@@ -36,7 +38,7 @@ class Browser(object):
             args.append("--app=%s" % appurl.encode("utf8"))
         else:
             args.append(appurl.encode("utf8"))
-        logging.debug(args)
+        logger.debug(args)
         self.pid = subprocess.Popen(args)
 
     def destroy(self):
@@ -147,7 +149,7 @@ class LEAPfactory(tornado.web.RequestHandler):
         if browser is not None:
             browser.destroy()
         else:
-            logging.warning("App already closed in destroy()")
+            logger.warning("App already closed in destroy()")
         status = self.get_status_dict()
         status["state"] = "stopped"
         status["browser"] = None
@@ -160,7 +162,7 @@ class LEAPfactory(tornado.web.RequestHandler):
         self.clear()
         browser = self.get_app_status()["browser"]
         if not browser:
-            logging.debug("App crashed or closed")
+            logger.debug("App crashed or closed")
             # app crashed or closed
             status = self.get_status_dict()
             status["state"] = "stopped"

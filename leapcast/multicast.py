@@ -13,6 +13,8 @@ from six.moves.socketserver import ThreadingUDPServer
 from .mixins import ControlMixin
 from .utils import get_interface_address
 
+logger = logging.getLogger("Leapcast")
+
 
 class MulticastServer(ControlMixin, ThreadingUDPServer):
     """
@@ -49,13 +51,13 @@ class MulticastServer(ControlMixin, ThreadingUDPServer):
                 self.socket.setsockopt(
                     socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         except Exception as e:
-            logging.log(e)
+            logger.error(e)
         try:
             if hasattr(socket, "SO_REUSEPORT"):
                 self.socket.setsockopt(
                     socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
         except Exception as e:
-            logging.log(e)
+            logger.error(e)
         ThreadingUDPServer.server_bind(self)
 
     def handle_membership(self, cmd):

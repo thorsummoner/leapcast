@@ -12,7 +12,7 @@ from leapcast.services.websocket import ServiceChannel, ReceiverChannel, \
 from leapcast.services.leap_factory import LEAPfactory
 from leapcast.environment import Environment
 
-logger = logging.getLogger("Environment")
+logger = logging.getLogger("Leapcast")
 
 
 class LEAPserver(object):

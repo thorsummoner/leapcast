@@ -10,6 +10,8 @@ from leapcast.environment import Environment
 
 from ..multicast import MulticastServer
 
+logger = logging.getLogger("Leapcast")
+
 
 class SSDPHandler(DatagramRequestHandler):
     header = """\
@@ -44,13 +46,13 @@ class SSDPserver(object):
     SSDP_PORT = 1900
 
     def start(self, interfaces):
-        logging.info("Starting SSDP server")
+        logger.info("Starting SSDP server")
         self.server = MulticastServer(
             (self.SSDP_ADDR, self.SSDP_PORT), SSDPHandler,
             interfaces=interfaces)
         self.server.start()
 
     def shutdown(self):
-        logging.info("Stopping SSDP server")
+        logger.info("Stopping SSDP server")
         self.server.server_close()
         self.server.stop()

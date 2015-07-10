@@ -9,9 +9,24 @@ __url__ = "https://github.com/dz0ny/leapcast"
 __author__ = "Janez Troha"
 __email__ = "dz0ny@ubuntu.si"
 
-
 import sys
 from distutils.version import StrictVersion as StrictV
+
+import logging
+
+logger = logging.getLogger("Leapcast")
+
+logger.setLevel(logging.INFO)
+
+fmt_str = "[%(name)s: %(levelname)s] %(message)s"
+formatter = logging.Formatter(fmt_str)
+
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+
+logger.addHandler(handler)
+logger.propogate = False
+
 
 # Check Python version.
 current_version = StrictV(".".join([str(x) for x in sys.version_info[:3]]))
