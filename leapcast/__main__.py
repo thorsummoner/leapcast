@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+"""
+This is the main point-of-entry for Leapcast.
+"""
+
 import signal
 import logging
 import sys
@@ -15,6 +19,9 @@ logger = logging.getLogger('Leapcast')
 
 
 def main():
+    """
+    Starts the Leapcast server.
+    """
     parse_cmd()
 
     if sys.platform == 'darwin' and environ.get('TMUX') is not None:
@@ -23,6 +30,11 @@ def main():
         sys.exit(1)
 
     def shutdown(signum, frame):
+        """
+        Called when a SIGTERM or SIGINT signal is received.
+
+        Shuts down the Leapcast server.
+        """
         leap_server.sig_handler(signum, frame)
         mdns_server.shutdown()
         ssdp_server.shutdown()
