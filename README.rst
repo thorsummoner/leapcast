@@ -100,6 +100,15 @@ https://plus.google.com/100317092290545434762/posts/8RjWfMXxje8
       --ips IPS             Allowed ips from which clients can connect
       --apps APPS           Add apps from JSON file
 
+Contributing
+------------
+Please feel free to contribute!
+
+There are however a style guide that should be followed:
+
+- Ensure your code passes the tox style tests (`flake8` and `pylint-full`).
+- Use " (double-quote) instead of ' (single-quote) where possible.
+
 |Bitdeli Badge|
 
 .. |Flattr this git repo| image:: http://api.flattr.com/button/flattr-badge-large.png
