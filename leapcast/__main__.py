@@ -9,10 +9,12 @@ import logging
 import sys
 from os import environ
 
-from leapcast.environment import parse_cmd, Environment
+from leapcast.environment import Environment
 from leapcast.services.leap import LEAPserver
 from leapcast.services.mdns import MDNSServer
 from leapcast.services.ssdp import SSDPserver
+
+from .cli import parse_cmd
 
 
 logger = logging.getLogger("Leapcast")
