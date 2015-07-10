@@ -1,13 +1,11 @@
-# -*- coding: utf8 -*-
-
-from __future__ import unicode_literals
 from collections import deque
 import json
 import logging
 import threading
-from __builtin__ import id
 
 import tornado.web
+
+from six.moves.builtins import id
 
 from leapcast.environment import Environment
 
