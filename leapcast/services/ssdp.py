@@ -5,8 +5,10 @@ from __future__ import unicode_literals
 import logging
 from six.moves.socketserver import DatagramRequestHandler
 
-from leapcast.utils import render, MulticastServer, get_remote_ip
+from leapcast.utils import render, get_remote_ip
 from leapcast.environment import Environment
+
+from ..multicast import MulticastServer
 
 
 class SSDPHandler(DatagramRequestHandler):
