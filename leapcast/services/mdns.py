@@ -3,7 +3,7 @@
 from __future__ import unicode_literals
 import struct
 import logging
-from SocketServer import DatagramRequestHandler
+from six.moves.socketserver import DatagramRequestHandler
 from time import sleep
 
 from dnslib import PTR, QTYPE, RR, DNSRecord, SRV, A, RD, DNSHeader, \

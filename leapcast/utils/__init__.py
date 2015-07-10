@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from SocketServer import ThreadingUDPServer
+from six.moves.socketserver import ThreadingUDPServer
 import logging
 import socket
 import struct
