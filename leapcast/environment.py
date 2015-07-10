@@ -29,12 +29,3 @@ class Environment(object):
     ips = []
     apps = None
     verbosity = logging.INFO
-
-
-def generate_uuid():
-    """
-    Generates an UUID and configures the Leapcast environment to use it.
-    """
-    Environment.uuid = str(uuid.uuid5(
-        uuid.NAMESPACE_DNS, ("device.leapcast.%s" %
-                             Environment.friendly_name).encode("utf8")))

@@ -4,9 +4,13 @@ Provides utility functions and classes used by Leapcast.
 
 import socket
 import struct
+
 from contextlib import closing as ctx_closing
 from textwrap import dedent
+
 from netifaces import interfaces, ifaddresses, AF_INET
+
+import uuid
 
 from tornado.template import Template
 
@@ -68,3 +72,13 @@ def get_own_ip():
                           "Candidates: {}".format(str(addresses)))
 
     return addresses[0]
+
+
+def generate_uuid(name):
+    """
+    Generates an UUID based on `name`.
+    """
+    dns_namespace = "device.leapcast.{}".format(name)
+    uuid_ = str(uuid.uuid5(uuid.NAMESPACE_DNS, dns_namespace.encode("utf8")))
+
+    return uuid_

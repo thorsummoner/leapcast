@@ -5,7 +5,7 @@ import argparse
 import logging
 
 from .environment import Environment
-from .environment import generate_uuid
+from .utils import generate_uuid
 
 logger = logging.getLogger("Environment")
 
@@ -72,4 +72,4 @@ def parse_cmd():
     if Environment.chrome is None:
         parser.error("could not locate chrome; use --chrome to specify one")
 
-    generate_uuid()
+    Environment.uuid = generate_uuid(Environment.friendly_name)
