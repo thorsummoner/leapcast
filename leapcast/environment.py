@@ -3,9 +3,7 @@ Provides the Environment object that contains information about the current
 Leapcast environment.
 """
 
-import argparse
 import logging
-import uuid
 
 from .chrome import get_chrome_path
 
