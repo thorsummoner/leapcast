@@ -22,7 +22,7 @@ class DeviceHandler(tornado.web.RequestHandler):
         <URLBase>{{ path }}</URLBase>
         <device>
             <deviceType>urn:schemas-upnp-org:device:dail:1</deviceType>
-            <friendlyName>{{ friendlyName }}</friendlyName>
+            <friendlyName>{{ friendly_name }}</friendlyName>
             <manufacturer>Google Inc.</manufacturer>
             <modelName>Eureka Dongle</modelName>
             <UDN>uuid:{{ uuid }}</UDN>
@@ -58,7 +58,7 @@ class DeviceHandler(tornado.web.RequestHandler):
                 "Application-URL", "http://%s/apps" % self.request.host)
             self.set_header("Content-Type", "application/xml")
             self.write(render(self.device).generate(
-                friendlyName=Environment.friendlyName,
+                friendly_name=Environment.friendly_name,
                 uuid=Environment.uuid,
                 path="http://%s" % self.request.host)
             )
@@ -90,7 +90,7 @@ class SetupHandler(tornado.web.RequestHandler):
         {% raw signData %}
         "signal_level":-50,
         "ssdp_udn":"82c5cb87-27b4-2a9a-d4e1-5811f2b1992c",
-        "ssid":"{{ friendlyName }}",
+        "ssid":"{{ friendly_name }}",
         "timezone":"America/Los_Angeles",
         "uptime":0.0,
         "version":4,
@@ -136,11 +136,11 @@ class SetupHandler(tornado.web.RequestHandler):
                 name = "Chromecast8991"
                 signData = self.sign_data
             else:
-                name = Environment.friendlyName
+                name = Environment.friendly_name
                 signData = ""
             self.write(render(self.status).generate(
                 name=name,
-                friendlyName=Environment.friendlyName,
+                friendly_name=Environment.friendly_name,
                 buildVersion="leapcast %s" % leapcast.__version__,
                 signData=signData,
                 uuid=Environment.uuid)
