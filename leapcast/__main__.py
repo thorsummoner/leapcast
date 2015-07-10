@@ -10,7 +10,7 @@ from os import environ
 
 from leapcast.environment import parse_cmd, Environment
 from leapcast.services.leap import LEAPserver
-from leapcast.services.mdns import MDNSserver
+from leapcast.services.mdns import MDNSServer
 from leapcast.services.ssdp import SSDPserver
 
 
@@ -33,8 +33,8 @@ def main():
     signal.signal(signal.SIGTERM, shutdown)
     signal.signal(signal.SIGINT, shutdown)
 
-    mdns_server = MDNSserver()
-    mdns_server.start(Environment.interfaces)
+    mdns_server = MDNSServer()
+    mdns_server.start(interfaces=Environment.interfaces or [])
 
     ssdp_server = SSDPserver()
     ssdp_server.start(Environment.interfaces)
