@@ -1,4 +1,6 @@
-recursive-include leapcast *
-include *
-global-exclude *.pyc
-
+exclude leapcast.sublime-*
+include LICENSE
+include README.rst
+include requirements.txt
+include tox.ini
+recursive-include tests *.py
