@@ -5,6 +5,8 @@ import os
 import re
 from setuptools import setup, find_packages
 
+from leapcast import __version__
+
 
 def get_path(*args):
     return os.path.join(os.path.dirname(__file__), *args)
@@ -21,12 +23,11 @@ def get_requirements(filename="requirements.txt"):
     return [l for l in lines if l and not l.startswith("#")]
 
 data = read_from(get_path("leapcast", "__init__.py"))
-version = re.search(u"__version__\s*=\s*u?'([^']+)'", data).group(1).strip()
 readme = read_from(get_path("README.rst"))
 
 setup(
     name="Leapcast",
-    version=version,
+    version=__version__,
     license="MIT",
     author="Janez Troha",
     author_email="janez.troha@gmail.com",
