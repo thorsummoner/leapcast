@@ -1,3 +1,7 @@
+"""
+Provicdes the MulticastServer class and other multicast-related things.
+"""
+
 import struct
 import socket
 import operator
@@ -11,6 +15,9 @@ from .utils import get_interface_address
 
 
 class MulticastServer(ControlMixin, ThreadingUDPServer):
+    """
+    A Multicast Server.
+    """
     allow_reuse_address = True
 
     def __init__(self, addr, handler, poll_interval=0.5,
@@ -26,11 +33,17 @@ class MulticastServer(ControlMixin, ThreadingUDPServer):
         self.handle_membership(socket.IP_ADD_MEMBERSHIP)
 
     def set_loopback_mode(self, mode):
+        """
+        Sets the loopback mode of the Multicast Server.
+        """
         mode = struct.pack("b", operator.truth(mode))
         self.socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_LOOP,
                                mode)
 
     def server_bind(self):
+        """
+        Binds the server to a socket.
+        """
         try:
             if hasattr(socket, "SO_REUSEADDR"):
                 self.socket.setsockopt(
@@ -46,6 +59,9 @@ class MulticastServer(ControlMixin, ThreadingUDPServer):
         ThreadingUDPServer.server_bind(self)
 
     def handle_membership(self, cmd):
+        """
+        Handles Multicast membership.
+        """
         if self._listen_interfaces is None:
             mreq = struct.pack(
                 str("4sI"), socket.inet_aton(self._multicast_address[0]),
@@ -63,8 +79,16 @@ class MulticastServer(ControlMixin, ThreadingUDPServer):
                                        cmd, mreq)
 
     def set_ttl(self, ttl):
+        """
+        Sets the TTL
+        """
         ttl = struct.pack("B", ttl)
         self.socket.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
     def server_close(self):
+        """
+        Called when the server closes.
+
+        Ensures the Multicast membership is dropped.
+        """
         self.handle_membership(socket.IP_DROP_MEMBERSHIP)
