@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import logging
 import json
 import requests
@@ -15,6 +13,7 @@ from leapcast.services.leap_factory import LEAPfactory
 from leapcast.environment import Environment
 
 logger = logging.getLogger('Environment')
+
 
 class LEAPserver(object):
     def start(self):
