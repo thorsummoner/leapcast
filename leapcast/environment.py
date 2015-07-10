@@ -6,42 +6,9 @@ import os
 import sys
 import uuid
 
+from .chrome import get_chrome_path
+
 logger = logging.getLogger('Environment')
-
-
-def _get_chrome_path():
-    if sys.platform == 'win32':
-        # First path includes fallback for Windows XP, because it doesn't have
-        # LOCALAPPDATA variable.
-        globs = [
-            os.path.join(
-                os.getenv('LOCALAPPDATA', os.path.join(
-                    os.getenv('USERPROFILE'),
-                    'Local Settings\\Application Data'
-                )),
-                'Google\\Chrome\\Application\\chrome.exe'
-            ),
-            os.path.join(
-                os.getenv('ProgramW6432', 'C:\\Program Files'),
-                'Google\\Chrome\\Application\\chrome.exe'
-            ),
-            os.path.join(
-                os.getenv('ProgramFiles(x86)', 'C:\\Program Files (x86)'),
-                'Google\\Chrome\\Application\\chrome.exe'
-            )
-        ]
-    elif sys.platform == 'darwin':
-        globs = [
-            '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome']
-    else:
-        globs = ['/usr/bin/google-chrome',
-                 '/opt/google/chrome/google-chrome',
-                 '/opt/google/chrome-*/google-chrome',
-                 '/usr/bin/chromium-browser']
-    for g in globs:
-        for path in glob.glob(g):
-            if os.path.exists(path):
-                return path
 
 
 class Environment(object):
@@ -49,7 +16,7 @@ class Environment(object):
     global_status = dict()
     friendlyName = 'leapcast'
     user_agent = 'Mozilla/5.0 (CrKey - 0.9.3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1573.2 Safari/537.36'
-    chrome = _get_chrome_path()
+    chrome = get_chrome_path()
     fullscreen = False
     window_size = False
     interfaces = None
