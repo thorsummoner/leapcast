@@ -1,11 +1,20 @@
-from __future__ import unicode_literals
-
 import sys
+from distutils.version import StrictVersion as StrictV
 
-if not (2, 7) <= sys.version_info < (3,):
-    sys.exit(
-        'Leapcast requires Python >= 2.7, < 3, but found %s' %
-        '.'.join(map(str, sys.version_info[:3])))
+# Check Python version.
+current_version = StrictV(".".join([str(x) for x in sys.version_info[:3]]))
+
+if sys.version_info[0] == 2 and not StrictV("2.7.0") <= current_version:
+    msg = ("Leapcast for Python 2 requires Python 2.7.0 or higher. "
+           "Found: Python " + str(current_version))
+
+    sys.exit(msg)
+
+elif sys.version_info[0] == 3 and not StrictV("3.3.0") <= current_version:
+    msg = ("Leapcast for Python 3 requires Python 3.3.0 or higher. "
+           "Found: Python " + str(current_version))
+
+    sys.exit(msg)
 
 __version__ = '2.0.0'
 __url__ = 'https://github.com/dz0ny/leapcast'
