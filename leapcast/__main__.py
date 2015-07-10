@@ -15,7 +15,7 @@ from leapcast.services.mdns import MDNSServer
 from leapcast.services.ssdp import SSDPserver
 
 
-logger = logging.getLogger('Leapcast')
+logger = logging.getLogger("Leapcast")
 
 
 def main():
@@ -24,9 +24,9 @@ def main():
     """
     parse_cmd()
 
-    if sys.platform == 'darwin' and environ.get('TMUX') is not None:
-        logger.error('Running Chrome inside tmux on OS X might cause problems.'
-                     ' Please start leapcast outside tmux.')
+    if sys.platform == "darwin" and environ.get("TMUX") is not None:
+        logger.error("Running Chrome inside tmux on OS X might cause problems."
+                     " Please start leapcast outside tmux.")
         sys.exit(1)
 
     def shutdown(signum, frame):

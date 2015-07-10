@@ -12,7 +12,7 @@ from ..multicast import MulticastServer
 
 
 class SSDPHandler(DatagramRequestHandler):
-    header = '''\
+    header = """\
     HTTP/1.1 200 OK\r
     LOCATION: http://{{ ip }}:8008/ssdp/device-desc.xml\r
     CACHE-CONTROL: max-age=1800\r
@@ -21,7 +21,7 @@ class SSDPHandler(DatagramRequestHandler):
     USN: uuid:{{ uuid }}\r
     ST: urn:dial-multiscreen-org:service:dial:1\r
     \r
-    '''
+    """
 
     def handle(self):
         data = self.request[0].strip()
@@ -40,17 +40,17 @@ class SSDPHandler(DatagramRequestHandler):
 
 
 class SSDPserver(object):
-    SSDP_ADDR = '239.255.255.250'
+    SSDP_ADDR = "239.255.255.250"
     SSDP_PORT = 1900
 
     def start(self, interfaces):
-        logging.info('Starting SSDP server')
+        logging.info("Starting SSDP server")
         self.server = MulticastServer(
             (self.SSDP_ADDR, self.SSDP_PORT), SSDPHandler,
             interfaces=interfaces)
         self.server.start()
 
     def shutdown(self):
-        logging.info('Stopping SSDP server')
+        logging.info("Stopping SSDP server")
         self.server.server_close()
         self.server.stop()

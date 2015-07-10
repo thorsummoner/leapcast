@@ -12,12 +12,12 @@ from leapcast.services.websocket import ServiceChannel, ReceiverChannel, \
 from leapcast.services.leap_factory import LEAPfactory
 from leapcast.environment import Environment
 
-logger = logging.getLogger('Environment')
+logger = logging.getLogger("Environment")
 
 
 class LEAPserver(object):
     def start(self):
-        logger.info('Starting LEAP server')
+        logger.info("Starting LEAP server")
         routes = [
             (r"/ssdp/device-desc.xml", DeviceHandler),
             (r"/setup/([^\/]+)", SetupHandler),
@@ -30,45 +30,45 @@ class LEAPserver(object):
         ]
 
         # download apps from google servers
-        logger.info('Loading Config-JSON from Google-Server')
-        app_dict_url = 'https://clients3.google.com/cast/chromecast/device/baseconfig'
+        logger.info("Loading Config-JSON from Google-Server")
+        app_dict_url = "https://clients3.google.com/cast/chromecast/device/baseconfig"
         # load json-file
         resp = requests.get(url=app_dict_url)
-        logger.info('Parsing Config-JSON')
+        logger.info("Parsing Config-JSON")
         # parse json-file
         data = json.loads(resp.content.replace(")]}'", ""))
         # list of added apps for apps getting added manually
         added_apps = []
 
         if Environment.apps:
-            logger.info('Reading app file: %s' % Environment.apps)
+            logger.info("Reading app file: %s" % Environment.apps)
             try:
                 f = open(Environment.apps)
                 tmp = json.load(f)
                 f.close()
 
                 for key in tmp:
-                    if key == 'applications':
+                    if key == "applications":
                         data[key] += tmp[key]
 
                     else:
                         data[key] = tmp[key]
             except Exception as e:
-                logger.error('Couldn\'t read app file: %s' % e)
+                logger.error("Couldn't read app file: %s" % e)
 
-        for app in data['applications']:
-            name = app['app_id'].encode('utf-8')
-            if 'url' not in app:
-                logger.warning('Didn\'t add %s because it has no URL!' %
+        for app in data["applications"]:
+            name = app["app_id"].encode("utf-8")
+            if "url" not in app:
+                logger.warning("Didn't add %s because it has no URL!" %
                                 name)
                 continue
-            logger.info('Added %s app' % name)
-            url = app['url']
+            logger.info("Added %s app" % name)
+            url = app["url"]
             logger.info(url)
             url = url.replace("${{URL_ENCODED_POST_DATA}}",
                               "{{ query }}").replace(
                 "${POST_DATA}", "{{ query }}")
-            # this doesn't support all params yet, but seems to work with
+            # this doesn"t support all params yet, but seems to work with
             # youtube, chromecast and play music.
             clazz = type(name, (LEAPfactory,), {"url": url})
             routes.append(("(/apps/" + name + "|/apps/" + name + ".*)", clazz))
@@ -80,7 +80,7 @@ class LEAPserver(object):
         tornado.ioloop.IOLoop.instance().start()
 
     def shutdown(self, ):
-        logger.info('Stopping DIAL server')
+        logger.info("Stopping DIAL server")
         tornado.ioloop.IOLoop.instance().stop()
 
     def sig_handler(self, sig, frame):

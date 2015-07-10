@@ -11,37 +11,37 @@ def get_chrome_path():
     """
     Returns the first available path to a Google Chrome / Chromium executable.
     """
-    if sys.platform == 'win32':
-        # First path includes fallback for Windows XP, because it doesn't have
+    if sys.platform == "win32":
+        # First path includes fallback for Windows XP, because it doesn"t have
         # LOCALAPPDATA variable.
         globs = [
             os.path.join(
-                os.getenv('LOCALAPPDATA', os.path.join(
-                    os.getenv('USERPROFILE'),
-                    'Local Settings\\Application Data'
+                os.getenv("LOCALAPPDATA", os.path.join(
+                    os.getenv("USERPROFILE"),
+                    "Local Settings\\Application Data"
                 )),
-                'Google\\Chrome\\Application\\chrome.exe'
+                "Google\\Chrome\\Application\\chrome.exe"
             ),
 
-            os.path.join(os.getenv('ProgramW6432', 'C:\\Program Files'),
-                         'Google\\Chrome\\Application\\chrome.exe'),
+            os.path.join(os.getenv("ProgramW6432", "C:\\Program Files"),
+                         "Google\\Chrome\\Application\\chrome.exe"),
 
-            os.path.join(os.getenv('ProgramFiles(x86)',
-                                   'C:\\Program Files (x86)'),
-                         'Google\\Chrome\\Application\\chrome.exe')
+            os.path.join(os.getenv("ProgramFiles(x86)",
+                                   "C:\\Program Files (x86)"),
+                         "Google\\Chrome\\Application\\chrome.exe")
         ]
 
-    elif sys.platform == 'darwin':
+    elif sys.platform == "darwin":
         globs = [
-            '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+            "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
         ]
 
     else:
         globs = [
-            '/usr/bin/google-chrome',
-            '/opt/google/chrome/google-chrome',
-            '/opt/google/chrome-*/google-chrome',
-            '/usr/bin/chromium-browser'
+            "/usr/bin/google-chrome",
+            "/opt/google/chrome/google-chrome",
+            "/opt/google/chrome-*/google-chrome",
+            "/usr/bin/chromium-browser"
         ]
 
     for g in globs:

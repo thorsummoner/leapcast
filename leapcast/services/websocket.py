@@ -13,9 +13,9 @@ from leapcast.environment import Environment
 
 
 class App(object):
-    '''
+    """
     Used to relay messages between app Environment.channels
-    '''
+    """
     name = ""
     lock = threading.Event()
     remotes = list()
@@ -143,10 +143,10 @@ class CreateChannel(threading.Thread):
 
 
 class ServiceChannel(tornado.websocket.WebSocketHandler):
-    '''
+    """
     ws /connection
     From 1st screen app
-    '''
+    """
     buf = list()
 
     def open(self, app=None):
@@ -215,7 +215,7 @@ class WSC(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         if Environment.verbosity is logging.DEBUG:
-            if not ('ping' in message or 'pong' in message):
+            if not ("ping" in message or "pong" in message):
                 pretty = json.loads(message)
                 message = json.dumps(
                     pretty, sort_keys=True, indent=2)
@@ -229,10 +229,10 @@ class WSC(tornado.websocket.WebSocketHandler):
 
 
 class ReceiverChannel(WSC):
-    '''
+    """
     ws /receiver/$app
     From 1st screen app
-    '''
+    """
 
     def open(self, app=None):
         super(ReceiverChannel, self).open(app)
@@ -267,10 +267,10 @@ class ReceiverChannel(WSC):
 
 
 class ApplicationChannel(WSC):
-    '''
+    """
     ws /session/$app
     From 2nd screen app
-    '''
+    """
 
     def ping(self):
         self.app.get_deque(self)
@@ -315,19 +315,19 @@ class ApplicationChannel(WSC):
 
 
 class CastPlatform(tornado.websocket.WebSocketHandler):
-    '''
+    """
     Remote control over WebSocket.
 
     Commands are:
-    {u'type': u'GET_VOLUME', u'cmd_id': 1}
-    {u'type': u'GET_MUTED', u'cmd_id': 2}
-    {u'type': u'VOLUME_CHANGED', u'cmd_id': 3}
-    {u'type': u'SET_VOLUME', u'cmd_id': 4}
-    {u'type': u'SET_MUTED', u'cmd_id': 5}
+    {u"type": u"GET_VOLUME", u"cmd_id": 1}
+    {u"type": u"GET_MUTED", u"cmd_id": 2}
+    {u"type": u"VOLUME_CHANGED", u"cmd_id": 3}
+    {u"type": u"SET_VOLUME", u"cmd_id": 4}
+    {u"type": u"SET_MUTED", u"cmd_id": 5}
 
     Device control:
 
-    '''
+    """
 
     def on_message(self, message):
         if Environment.verbosity is logging.DEBUG:

@@ -22,7 +22,7 @@ class MulticastServer(ControlMixin, ThreadingUDPServer):
 
     def __init__(self, addr, handler, poll_interval=0.5,
                  bind_and_activate=True, interfaces=None):
-        ThreadingUDPServer.__init__(self, ('', addr[1]),
+        ThreadingUDPServer.__init__(self, ("", addr[1]),
                                     handler,
                                     bind_and_activate)
         ControlMixin.__init__(self, handler, poll_interval)

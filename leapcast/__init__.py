@@ -4,10 +4,10 @@ Leapcast turns your PC into a Chromecast server!
 This enables you to stream video, audio, etc to your PC.
 """
 
-__version__ = '2.0.0'
-__url__ = 'https://github.com/dz0ny/leapcast'
-__author__ = 'Janez Troha'
-__email__ = 'dz0ny@ubuntu.si'
+__version__ = "2.0.0"
+__url__ = "https://github.com/dz0ny/leapcast"
+__author__ = "Janez Troha"
+__email__ = "dz0ny@ubuntu.si"
 
 
 import sys

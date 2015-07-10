@@ -28,7 +28,7 @@ def get_interface_address(if_name):
 
     with ctx_closing(socket.socket(socket.AF_INET, socket.SOCK_DGRAM)) as s:
         return fcntl.ioctl(s.fileno(), SIOCGIFADDR,
-                           struct.pack(b'256s', if_name[:15]))[20:24]
+                           struct.pack(b"256s", if_name[:15]))[20:24]
 
 
 def get_remote_ip(address):
