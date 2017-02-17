@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/dz0ny/leapcast.png?branch=master)](https://travis-ci.org/dz0ny/leapcast)
 [![Gitter chat](https://badges.gitter.im/dz0ny/leapcast.png)](https://gitter.im/dz0ny/leapcast)
 
-# Chromecast API v2 (develop branch)
+# Chromecast API v2
 
 In order to get it working again, we need to:
 

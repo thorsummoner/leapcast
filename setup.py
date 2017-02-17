@@ -28,7 +28,6 @@ readme = read_from(get_path('README.rst'))
 setup(
     name='Leapcast',
     version=version,
-    url='http://www.mopidy.com/',
     license='MIT',
     author='Janez Troha',
     author_email='janez.troha@gmail.com',
@@ -39,6 +38,10 @@ setup(
     long_description=readme,
     install_requires=get_requirements(),
     test_suite='nose.collector',
+    tests_require=[
+        'nose',
+        'flake8',
+    ],
     entry_points={
         'console_scripts': [
             'leapcast = leapcast.__main__:main'

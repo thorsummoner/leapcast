@@ -1,3 +1,4 @@
 setuptools
 tornado >= 3.1
 requests
+dnslib
